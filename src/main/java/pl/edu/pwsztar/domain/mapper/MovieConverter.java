@@ -3,7 +3,7 @@ package pl.edu.pwsztar.domain.mapper;
 import pl.edu.pwsztar.domain.dto.CreateMovieDto;
 import pl.edu.pwsztar.domain.dto.MovieDto;
 import pl.edu.pwsztar.domain.entity.Movie;
-import pl.edu.pwsztar.utils.Converter;
+import pl.edu.pwsztar.utils.converter.Converter;
 
 class MovieConverter {
 

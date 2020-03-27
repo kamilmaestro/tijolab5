@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pwsztar.domain.dto.CreateMovieDto;
 import pl.edu.pwsztar.domain.dto.MovieDto;
+import pl.edu.pwsztar.exception.MovieNotFoundException;
 import pl.edu.pwsztar.service.MovieService;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class MovieApiController {
 
     @CrossOrigin
     @DeleteMapping(value = "/movies/{movieId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Void> deleteMovie(@PathVariable Long movieId) {
+    public ResponseEntity<Void> deleteMovie(@PathVariable Long movieId) throws MovieNotFoundException {
         LOGGER.info("delete movie: {}", movieId);
 
         movieService.deleteMovie(movieId);

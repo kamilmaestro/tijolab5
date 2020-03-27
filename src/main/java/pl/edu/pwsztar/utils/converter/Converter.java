@@ -1,4 +1,4 @@
-package pl.edu.pwsztar.utils;
+package pl.edu.pwsztar.utils.converter;
 
 @FunctionalInterface
 public interface Converter<F, T> {
