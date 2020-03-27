@@ -10,9 +10,11 @@ import pl.edu.pwsztar.domain.entity.Movie;
 import pl.edu.pwsztar.domain.mapper.MovieListMapper;
 import pl.edu.pwsztar.domain.mapper.MovieMapper;
 import pl.edu.pwsztar.domain.repository.MovieRepository;
+import pl.edu.pwsztar.exception.MovieNotFoundException;
 import pl.edu.pwsztar.service.MovieService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -36,17 +38,23 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<MovieDto> findAll() {
         List<Movie> movies = movieRepository.findAll();
-        return movieListMapper.mapToDto(movies);
+        return movieListMapper.dto(movies);
     }
 
     @Override
     public void creatMovie(CreateMovieDto createMovieDto) {
-        Movie movie = movieMapper.mapToEntity(createMovieDto);
+        Movie movie = movieMapper.createMovie(createMovieDto);
         movieRepository.save(movie);
     }
 
     @Override
-    public void deleteMovie(Long movieId) {
+    public void deleteMovie(Long movieId) throws MovieNotFoundException {
+        checkIfMovieExists(movieId);
         movieRepository.deleteById(movieId);
+    }
+
+    private void checkIfMovieExists(Long movieId) throws MovieNotFoundException {
+        movieRepository.findById(Optional.ofNullable(movieId).orElse(0L))
+            .orElseThrow(MovieNotFoundException::new);
     }
 }

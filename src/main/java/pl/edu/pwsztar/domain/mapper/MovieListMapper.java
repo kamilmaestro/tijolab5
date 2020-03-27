@@ -4,27 +4,21 @@ import org.springframework.stereotype.Component;
 import pl.edu.pwsztar.domain.dto.MovieDto;
 import pl.edu.pwsztar.domain.entity.Movie;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MovieListMapper {
 
-    public List<MovieDto> mapToDto(List<Movie> movies) {
-        List<MovieDto> moviesDto = new ArrayList<>();
+    public List<MovieDto> dto(List<Movie> from) {
+        return from.stream()
+            .map(movie -> MovieConverter.toDto.convert(movie))
+            .collect(Collectors.toList());
+    }
 
-        for(Movie movie: movies) {
-            MovieDto movieDto = new MovieDto();
-
-            movieDto.setMovieId(movie.getMovieId());
-            movieDto.setTitle(movie.getTitle());
-            movieDto.setImage(movie.getImage());
-            movieDto.setYear(movie.getYear());
-
-            moviesDto.add(movieDto);
-
-        }
-
-        return moviesDto;
+    public List<Movie> fromDto(List<MovieDto> from) {
+        return from.stream()
+            .map(movie -> MovieConverter.fromDto.convert(movie))
+            .collect(Collectors.toList());
     }
 }

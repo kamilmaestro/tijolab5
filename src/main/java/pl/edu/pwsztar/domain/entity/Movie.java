@@ -24,35 +24,32 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
-    public Long getMovieId() {
-        return movieId;
+    public Movie(String title, String image, Integer year) {
+        this.title = title;
+        this.image = image;
+        this.year = year;
     }
 
-    public void setMovieId(Long movieId) {
+    public Movie(Long movieId, String title, String image, Integer year) {
         this.movieId = movieId;
+        this.title = title;
+        this.image = image;
+        this.year = year;
+    }
+
+    public Long getMovieId() {
+        return movieId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getImage() {
         return image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Integer getYear() {
         return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
     }
 }
