@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import pl.edu.pwsztar.domain.dto.CreateMovieDto;
 import pl.edu.pwsztar.domain.dto.MovieDto;
 import pl.edu.pwsztar.domain.entity.Movie;
-import pl.edu.pwsztar.domain.mapper.MovieListMapper;
-import pl.edu.pwsztar.domain.mapper.MovieMapper;
+import pl.edu.pwsztar.domain.mapper.MovieListMapperToDto;
+import pl.edu.pwsztar.domain.mapper.MovieMapperFromCreateMovieDto;
 import pl.edu.pwsztar.domain.repository.MovieRepository;
 import pl.edu.pwsztar.exception.MovieNotFoundException;
 import pl.edu.pwsztar.service.MovieService;
@@ -22,28 +22,28 @@ public class MovieServiceImpl implements MovieService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MovieServiceImpl.class);
 
     private final MovieRepository movieRepository;
-    private final MovieListMapper movieListMapper;
-    private final MovieMapper movieMapper;
+    private final MovieListMapperToDto movieListMapperToDto;
+    private final MovieMapperFromCreateMovieDto movieMapperFromCreateMovieDto;
 
     @Autowired
     public MovieServiceImpl(MovieRepository movieRepository,
-                            MovieListMapper movieListMapper,
-                            MovieMapper movieMapper) {
+                            MovieListMapperToDto movieListMapperToDto,
+                            MovieMapperFromCreateMovieDto movieMapperFromCreateMovieDto) {
 
         this.movieRepository = movieRepository;
-        this.movieListMapper = movieListMapper;
-        this.movieMapper = movieMapper;
+        this.movieListMapperToDto = movieListMapperToDto;
+        this.movieMapperFromCreateMovieDto = movieMapperFromCreateMovieDto;
     }
 
     @Override
     public List<MovieDto> findAll() {
         List<Movie> movies = movieRepository.findAll();
-        return movieListMapper.dto(movies);
+        return movieListMapperToDto.convert(movies);
     }
 
     @Override
     public void creatMovie(CreateMovieDto createMovieDto) {
-        Movie movie = movieMapper.createMovie(createMovieDto);
+        Movie movie = movieMapperFromCreateMovieDto.convert(createMovieDto);
         movieRepository.save(movie);
     }
 
